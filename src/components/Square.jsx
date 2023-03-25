@@ -1,9 +1,13 @@
-const Square = ({ value, onClick}) => {
+const Square = ({ value, onClick, isWinningSquares }) => {
   // console.log(value);
   return (
-    <button type="button" className="square" onClick={onClick}>
-      <span className={ value !== 'X' ? 'text-orange' : 'text-green'}>{value}</span>
-    </button>
+    <button
+      type="button"
+      className={`square ${value === 'X' ? 'text-green' : 'text-orange'} ${
+        isWinningSquares ? 'winning' : ''
+      }`}
+      onClick={onClick}
+    >{value}</button>
   );
 };
 
