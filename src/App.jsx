@@ -6,21 +6,16 @@ import StatusMessage from './components/StatusMessage';
 import { useState } from 'react';
 import { calculateWinner } from './winner';
 
-const New_Game = [{ square: Array(9).fill(null), isXNext: false }];
+const New_Game = [{ square: Array(9).fill(null), isXNext: true }];
 
 function App() {
-
   const [history, setHistory] = useState(New_Game);
 
   const [currentMove, setCurrentMove] = useState(0);
 
   const gamingBoard = history[currentMove];
 
-  const [square, setSquare] = useState(Array(9).fill(null));
-  const [isXNext, setIsXNext] = useState(true);
-
-  const {winner,winningsquares} = calculateWinner(gamingBoard.square);
-  // console.log({ history, currentMove });
+  const { winner, winningsquares } = calculateWinner(gamingBoard.square);
 
   const handleSquareClick = clickedPosition => {
     if (gamingBoard.square[clickedPosition] || winner) {
@@ -63,20 +58,32 @@ function App() {
   const onNewGameState = () => {
     setHistory(New_Game);
     setCurrentMove(0);
-  }
+  };
 
   return (
     <div className="app">
+      <h1>
+        TIC <span className="text-green">TAC</span> TOE
+      </h1>
       <StatusMessage winner={winner} gamingBoard={gamingBoard} />
       <Board
         square={gamingBoard.square}
         handleSquareClick={handleSquareClick}
-        winningsquares = {winningsquares}
+        winningsquares={winningsquares}
       />
-      
-      <button type="button" onClick={onNewGameState} className={`btn-reset ${winner ? 'active': ''}`}>Start New Game</button>
 
-      <h3>Current Game History</h3>
+      <button
+        type="button"
+        onClick={onNewGameState}
+        className={`btn-reset ${winner ? 'active' : ''}`}
+      >
+        Start New Game
+      </button>
+
+      <h3 style={{
+        fontWeight : 'normal',
+      }
+      }>Current Game History</h3>
       <History history={history} moveTo={moveTo} currentMove={currentMove} />
     </div>
   );
